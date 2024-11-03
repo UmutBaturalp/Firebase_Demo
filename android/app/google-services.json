@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "872375444205",
+    "project_id": "firat-mobil",
+    "storage_bucket": "firat-mobil.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872375444205:android:5e157596c9f881014fe2e4",
+        "android_client_info": {
+          "package_name": "com.firebase_demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxNUJmxCZ7aGNJAE3J4QVHEu6Gy5x6vD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
