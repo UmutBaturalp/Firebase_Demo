@@ -5,6 +5,7 @@ import {
   Button,
   SafeAreaView,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
@@ -13,7 +14,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const winWidth = Dimensions.get('window').width;
 const winHeight = Dimensions.get('window').height;
 
-const Demo = () => {
+const Demo = props => {
+  const {navigation} = props;
   const [notificationData, setNotificationData] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState('');
 
@@ -68,15 +70,21 @@ const Demo = () => {
       };
       await AsyncStorage.setItem(
         'lastNotification',
-        JSON.stringify(newNotificationData)
+        JSON.stringify(newNotificationData),
       );
     }
   });
-  
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Home');
+            }}>
+            <Text style={styles.headerText}>HOME</Text>
+          </TouchableOpacity>
           <Text style={styles.headerText}>Bölümden Duyuru</Text>
         </View>
         <View style={styles.content}>
@@ -87,16 +95,6 @@ const Demo = () => {
             </View>
           ) : null}
 
-          {/* Topic abonelik butonları */}
-          <Button
-            title="Araba topicine abone ol"
-            onPress={() => handleSubscribe('araba')}
-          />
-          <Button
-            title="Bisiklet topicine abone ol"
-            onPress={() => handleSubscribe('bisiklet')}
-          />
-          {/* Seçilen topic'i göster */}
           {selectedTopic ? (
             <Text style={styles.selectedTopicText}>
               Seçilen topic: {selectedTopic}

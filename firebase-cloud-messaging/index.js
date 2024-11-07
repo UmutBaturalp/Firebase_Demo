@@ -7,32 +7,17 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-const firestore = admin.firestore();
-
-// Belirli bir kullanıcıya bildirim gönder
-async function sendNotificationToUser(tokenList, message) {
-  const messagePayload = {
-    notification: {
-      title: message.title,
-      body: message.body,
-    },
-    tokens: tokenList,
-  };
-
-  try {
-    const response = await admin.messaging().sendMulticast(messagePayload);
-    console.log('Bildirim gönderildi:', response);
-  } catch (error) {
-    console.log('Bildirim gönderilemedi:', error);
-  }
-}
-
 // Belirli bir topic'e bildirim gönder
 async function sendNotificationToTopic(topic, message) {
   const messagePayload = {
     notification: {
       title: message.title,
       body: message.body,
+      image: message.image,
+    },
+    data: {
+      title: message.title,
+      desc: message.body,
     },
     topic: topic,
   };
@@ -45,25 +30,10 @@ async function sendNotificationToTopic(topic, message) {
   }
 }
 
-// Firestore’dan bir kullanıcının tokenlarını al
-async function getUserTokens(userId) {
-  const userDoc = await firestore.collection('users').doc(userId).get();
-  if (userDoc.exists) {
-    return userDoc.data().fcmTokens || [];
-  }
-  return [];
-}
-
-// Örnek kullanım: Kullanıcıya bildirim gönderme
-getUserTokens('user_unique_id').then(tokens => {
-  sendNotificationToUser(tokens, {
-    title: 'Merhaba!',
-    body: 'Bu kullanıcıya özel bir bildirim.',
-  });
-});
-
 // Örnek kullanım: Topic'e bildirim gönderme
 sendNotificationToTopic('araba', {
-  title: 'Araba Haberleri',
-  body: 'Yeni araba modelleri piyasaya çıktı!',
+  title: 'Bilgiayar Sistem Lab. Dersi Alan Öğrencilerin Dikkatine',
+  body: `Bilgisayar Sistem Lab. Dersinin Deneyleri I. ve II. Öğretim birlikte yapılacaktır. \n Deney 3: 11 Kasım pazartesi günü saat 14.15'te yapılacaktır.  Diğer deneylerde her pazartesi aynı saatte yapılacaktır.`,
+  image:
+    'https://i.elazigmavihaber.com/c/90/1280x720/s/dosya/haber/firat-universitesi-ogrencileri_1720707713_OMVxu4.webp',
 });
